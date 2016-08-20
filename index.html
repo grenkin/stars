@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
+<title>Звёзды</title>
+    <script language="javascript" type="text/javascript" src="./flot/jquery.js"></script>
+    <script language="javascript" type="text/javascript" src="./flot/jquery.flot.js"></script>
+</head>
+<body onload="clickPlot();">
+
+<form name="frm">
+<table align="center" border="0" cellspacing="0" cellpadding="5">
+<tr>
+<td>
+<i>R</i> =
+</td>
+<td>
+<input type="text" size="8" name="R" value="1" />
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+<input type="range" min="0" max="5" step="0.1" value="1" oninput="javascript:R.value=this.value; clickPlot();" />
+</td>
+</tr>
+<tr>
+<td>
+<i>r</i> =
+</td>
+<td>
+<input type="text" size="8" name="r" value="0.4" />
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+<input type="range" min="0" max="5" step="0.1" value="0.4" oninput="javascript:r.value=this.value; clickPlot();" />
+</td>
+</tr>
+<tr>
+<td>
+<i>n</i> =
+</td>
+<td>
+<input type="text" size="8" name="n" value="5" />
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+<input type="range" min="3" max="25" step="1" value="5" oninput="javascript:n.value=this.value; clickPlot();" />
+</td>
+</tr>
+<tr>
+<td colspan="4" align="center">
+<input type="button" value="Draw" onClick="clickPlot();" />
+</td>
+</tr>
+</table>
+</form>
+
+<script type="text/javascript">
+
+function clickPlot() {
+
+var R = parseFloat(frm.R.value);
+var r = parseFloat(frm.r.value);
+var n = parseInt(frm.n.value);
+
+if (R < r)
+  R = [r, r = R][0]; // swap
+
+var p = [];
+var alpha = Math.PI / n;
+var phi = Math.PI / 2;
+for (var i = 0; i <= n; ++i) {
+  p.push([R * Math.cos(phi), R * Math.sin(phi)]);
+  phi += alpha;
+  p.push([r * Math.cos(phi), r * Math.sin(phi)]);
+  phi += alpha;
+}
+
+  $(function() {
+    $.plot("#placeholder", [{data: p, color: "red"}],
+      {xaxis: {min: -R, max: R}, yaxis: {min: -R, max: R}});
+  });
+
+} //function
+
+</script>
+
+<center>
+<div id="placeholder" style="width:500px; height:500px;"></div>
+</center>
+
+<font face="Arial">
+<p align="center"><small>
+Plotted with <a href="http://www.flotcharts.org" target="_blank">Flot</a>
+</small></p>
+<p align="center"><a href="https://vk.com/wall-50670682_172" target="_blank">
+Math Machine Vladivostok</a></p>
+</font>
+
+</body>
+</html>
